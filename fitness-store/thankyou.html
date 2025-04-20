@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Purchase!</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #000;
+            color: #ffc107;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .thankyou-icon {
+            font-size: 100px;
+            margin-bottom: 30px;
+            color: #ffc107;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .order-details {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 500px;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #ffe066;
+        }
+        
+        .home-button {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .home-button:hover {
+            background-color: #ffe066;
+        }
+        
+        .contact-info {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+        .cod-notice {
+        color: #ffe066;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="thankyou-icon">✓</div>
+        <h1>Thank You for Your Order!</h1>
+        <p>Your payment was successful and your order is being processed.</p>
+        
+        <div class="order-details">
+            <h2 style="text-align: center; margin-top: 0;">Order Summary</h2>
+            <div class="detail-row">
+                <span class="detail-label">Order Number:</span>
+                <span id="order-id">TXN123456</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date:</span>
+                <span id="order-date">June 15, 2023</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount Paid:</span>
+                <span id="order-amount">₹1,299.00</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Method:</span>
+                <span id="payment-method">COD</span>
+            </div>
+        </div>
+        
+        <p>We've sent a confirmation email with your order details.</p>
+        
+        <a href="home.html" class="home-button">Back to Home</a>
+        
+        <div class="contact-info">
+            <p>Need help? Contact our support team at <a href="mailto:support@yourstore.com" style="color: #ffc107;">support@Fitnessstore.com</a></p>
+        </div>
+    </div>
+
+    <script>
+       
+       
+        // In thankyou.html's script section:
+const orderData = JSON.parse(localStorage.getItem('latestOrder')) || {};
+
+if (orderData.payment?.method === "Cash on Delivery") {
+    document.getElementById("payment-method").textContent = "Cash on Delivery";
+    document.querySelector(".thankyou-message").innerHTML += 
+        '<p class="cod-notice">Please keep ₹'+orderData.price+' ready for delivery.</p>';
+    
+    // Add this to your CSS:
+   
+}
+    </script>
+</body>
+</html>

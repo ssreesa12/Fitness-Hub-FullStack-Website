@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitness Freak</title>
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav>
+      <div class="logo">Fitness Freak</div>
+     
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dailyexercise.html">Daily Workouts</a></li>
+        <li><a href="athelete.html">Athelete Training</a></li>
+        <li>
+          <span class="icon-button" onclick="toggleChatbot()" style="cursor: pointer;">
+            <img src="icons8-chat-bot-48.png" alt="Bot Icon" style="width: 30px; pointer-events: auto;" />
+          </span>
+        </li>
+        <li><a href="fitness-store/index.html">Fitness-Store</a></li>
+      </ul>
+      
+    </nav>
+
+    
+      <div id="chatbot-container">
+        <div id="chat-header">🤖 AI assist</div>
+        <div id="chat-box"></div>
+        <div id="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Ask me anything..." />
+          <button id="send-btn">Send</button>
+        </div>
+      </div>
+  
+    
+    
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Transform Your Body</h1>
+        <p>Explore the best exercises for fitness, strength, and wellness.</p>
+        <a href="#gallery" class="cta-button">View Gallery</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="about-content">
+        <h2>About Us</h2>
+        <p>
+          Welcome to <span class="highlight">Fitness Freak</span>, your ultimate
+          destination for achieving your fitness goals. Whether you're looking
+          to lose weight, gain muscle, or improve your overall health, we
+          provide expert guidance, workout plans, and nutritional advice
+          tailored to your needs. Our team of professional trainers and
+          nutritionists is here to support you every step of the way.
+        </p>
+        <p>
+          Join our community today and start your journey towards a healthier,
+          stronger, and happier you!
+        </p>
+      </div>
+      <div class="about-image">
+        <img src="images/about.jpg" alt="About Us" />
+      </div>
+    </section>
+
+    <!-- Image Gallery -->
+    <section id="gallery" class="gallery">
+      <div class="gallery-item large">
+        <img src="images/image2.jpg" alt="Exercise 1" />
+        <div class="description">
+          <h2>Strength Training</h2>
+          <p>Build muscle and improve endurance with these exercises.</p>
+        </div>
+      </div>
+      <div class="gallery-item small">
+        <img src="images/image4.jpg" alt="Exercise 2" />
+        <div class="description">
+          <h2>Cardio Workouts</h2>
+          <p>Boost your heart health with high-intensity cardio.</p>
+        </div>
+      </div>
+      <div class="gallery-item medium">
+        <img src="images/yoga.jpg" alt="Exercise 3" />
+        <div class="description">
+          <h2>Yoga & Flexibility</h2>
+          <p>Enhance your flexibility and mental well-being.</p>
+        </div>
+      </div>
+      <div class="gallery-item small">
+        <img src="images/image3.jpg" alt="Exercise 4" />
+        <div class="description">
+          <h2>Weight Loss</h2>
+          <p>Effective workouts to help you shed those extra pounds.</p>
+        </div>
+      </div>
+      <div class="gallery-item medium">
+        <img src="images/athelete training.jpg" alt="Exercise 5" />
+        <div class="description">
+          <h2>Athlete Training</h2>
+          <p>Advanced workouts for athletes.</p>
+        </div>
+      </div>
+      <div class="gallery-item small">
+        <img src="images/meditation.jpg" alt="Exercise 6" />
+        <div class="description">
+          <h2>Meditation</h2>
+          <p>Relax and rejuvenate your mind and body.</p>
+        </div>
+      </div>
+      <div class="gallery-item medium">
+        <img src="images/mental.jpg" alt="Exercise 3" />
+        <div class="description">
+          <h2>Mental well-being </h2>
+          <p>Enhance your flexibility and mental well-being.</p>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-left: 100px; width: 500px">
+          "At Fitness Freak, we believe that every journey to a healthier,
+          stronger, and happier you begins with a single step. Whether you're
+          looking to build muscle, shed those extra pounds, or simply improve
+          your overall well-being, our expert trainers and tailored programs are
+          here to guide you every step of the way. Join our community of fitness
+          enthusiasts and discover the power of consistency, dedication, and
+          positivity. Your goals are within reach—let’s achieve them together!"
+        </h4>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2023 Fitness Freak. All rights reserved.</p>
+    </footer>
+    
+    
+   
+    <script>
+      const API_KEY = "AIzaSyDX2D31_RgTpZgowxTwWb0dPOHeZ7r4Rc0"; // 🔑 Replace with your actual Gemini API key
+      const chatbotContainer = document.getElementById("chatbot-container");
+      let isChatbotOpen = false;
+  
+      async function sendMessageToGemini(message) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: message }]
+              }
+            ]
+          })
+        });
+  
+        const data = await res.json();
+        return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
+      }
+  
+      document.getElementById("send-btn").addEventListener("click", async () => {
+        const inputField = document.getElementById("chat-input");
+        const chatBox = document.getElementById("chat-box");
+        const userInput = inputField.value.trim();
+  
+        if (!userInput) return;
+
+      // Append user's message
+      chatBox.innerHTML += `<div class="user-msg">${userInput}</div>`;
+      inputField.value = "";
+
+      // Get formatted response
+      const prompt = `Respond in plain text only, without any *asterisks* or markdown formatting: ${userInput}`;
+      let botReply = await sendMessageToGemini(prompt);
+
+      // Basic formatting if needed
+      botReply = botReply.replace(/\n/g, '<br>');
+
+      // Append bot's response
+      chatBox.innerHTML += `<div class="bot-msg">${botReply}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      });
+
+      function toggleChatbot() {
+            isChatbotOpen = !isChatbotOpen;
+            chatbotContainer.classList.toggle("open", isChatbotOpen);
+        }
+    </script>
+  </body>
+</html>

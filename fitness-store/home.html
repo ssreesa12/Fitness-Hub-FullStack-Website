@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black & Yellow Product Showcase</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #000;
+            color: #ffc107;
+            margin: 0;
+            padding: 20px;
+        }
+     
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .logout-btn {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #ffe066;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-row-gap: 20px;
+            grid-column-gap: 20px;
+        }
+
+        .product-card {
+            background-color: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .product-card img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #ffea00;
+            margin-bottom: 10px;
+        }
+
+        .buy-button {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background-color: #ffe066;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="container">
+        <header>
+            <h1>Awesome Products</h1>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </header>
+        
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="images1/pexels-dom-j-7304-45056.jpg" alt="Product 1">
+                <p class="product-price">$49.99</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-goumbik-669582.jpg" alt="Product 2">
+                <p class="product-price">$79.50</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-dom-j-7304-45056.jpg" alt="Product 3">
+                <p class="product-price">$129.00</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-olly-3757957.jpg" alt="Product 4">
+                <p class="product-price">$59.99</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-39671.jpg" alt="Product 5">
+                <p class="product-price">$25.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-47084.jpg" alt="Product 6">
+                <p class="product-price">$39.20</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-221247.jpg" alt="Product 7">
+                <p class="product-price">$89.99</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-victorfreitas-841130.jpg" alt="Product 8">
+                <p class="product-price">$299.00</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-victorfreitas-949132.jpg" alt="Product 9">
+                <p class="product-price">$65.50</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="product-card">
+                <img src="images1/pexels-victorfreitas-1092878.jpg" alt="Product 10">
+                <p class="product-price">$149.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+            <div class="product-card">
+              <img src="images1/pexels-victorfreitas-1092878.jpg" alt="Product 10">
+              <p class="product-price">$149.75</p>
+              <button class="buy-button">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-221247.jpg" alt="Product 10">
+                <p class="product-price">$149.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-47084.jpg" alt="Product 10">
+                <p class="product-price">$149.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <img src="images1/pexels-dom-j-7304-45056.jpg" alt="Product 10">
+                <p class="product-price">$149.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <img src="images1/pexels-pixabay-47084.jpg" alt="Product 10">
+                <p class="product-price">$149.75</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Clear any user session data if needed
+            // localStorage.removeItem('currentUser');
+            
+            // Redirect to index.html
+            window.location.href = 'index.html';
+          })
+          // Add this script to your existing index.html
+document.querySelectorAll(".buy-button").forEach(button => {
+    button.addEventListener("click", function() {
+        const productCard = this.closest(".product-card");
+        const productName = productCard.querySelector("img").alt;
+        const productPrice = productCard.querySelector(".product-price").textContent.replace("$", "");
+        
+        // Redirect to checkout page with product details
+        window.location.href = `checkout.html?name=${encodeURIComponent(productName)}&price=${productPrice}`;
+    });
+});
+    </script>
+</body>
+</html>

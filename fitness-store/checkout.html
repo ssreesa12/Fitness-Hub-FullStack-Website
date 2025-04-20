@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #000;
+            color: #ffc107;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .checkout-form {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            background-color: #222;
+            border: 1px solid #333;
+            color: #ffc107;
+            border-radius: 4px;
+        }
+        .pay-button {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .pay-button:hover {
+            background-color: #ffe066;
+        }
+        .pay-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .product-summary {
+            background-color: #111;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #222;
+        }
+        .payment-option input {
+            width: auto;
+            margin-right: 10px;
+        }
+        .payment-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .card-details {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+        }
+        .payment-active {
+            border-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        
+        <div class="product-summary">
+            <h3 id="product-name">Product Name</h3>
+            <p id="product-price">Price: ₹0.00</p>
+        </div>
+        
+        <div class="checkout-form">
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                
+                <h3>Payment Method</h3>
+                
+                
+                
+                     <div class="payment-option" id="cod-option">
+                    <input type="radio" id="cod" name="payment-method" value="cod">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331966.png" class="payment-icon" alt="Cash on Delivery">
+                    <label for="cod">Cash on Delivery (COD)</label>
+                </div>
+                
+                <button type="button" class="pay-button" id="pay-button" disabled>Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Generate a random transaction ID
+        function generateTxnId() {
+            return "TXN" + Math.floor(Math.random() * 1000000);
+        }
+
+        // Get product details from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name') || "Product";
+        const productPrice = urlParams.get('price') || "0";
+
+        // Display product info
+        document.getElementById("product-name").textContent = productName;
+        document.getElementById("product-price").textContent = `Price: ₹${productPrice}`;
+
+        // Payment method selection logic
+        const paymentOptions = document.querySelectorAll('input[name="payment-method"]');
+        const payButton = document.getElementById('pay-button');
+        const cardDetails = document.getElementById('card-details');
+        
+        // Highlight selected payment method
+        paymentOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                // Reset all payment option styles
+                document.querySelectorAll('.payment-option').forEach(el => {
+                    el.classList.remove('payment-active');
+                });
+                
+                // Highlight selected option
+                if (this.checked) {
+                    document.getElementById(`${this.value}-option`).classList.add('payment-active');
+                    payButton.disabled = false;
+                    
+                    // Update pay button text
+                    if (this.value === 'cod') {
+                        payButton.textContent = 'Place Order (COD)';
+                    } else {
+                        payButton.textContent = 'Pay Now';
+                    }
+                    
+                    // Show card details if credit/debit card selected
+                    if (this.value === 'credit-card' || this.value === 'debit-card') {
+                        cardDetails.style.display = 'block';
+                    } else {
+                        cardDetails.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Handle payment submission
+        payButton.addEventListener('click', function() {
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+            
+            if (!selectedPayment) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+
+            if (!name || !email || !phone || !address) {
+                alert("Please fill all fields!");
+                return;
+            }
+            
+            // Validate card details if credit/debit card selected
+            if (selectedPayment.value === 'credit-card' || selectedPayment.value === 'debit-card') {
+                const cardNumber = document.getElementById("card-number").value;
+                const cardName = document.getElementById("card-name").value;
+                const cardExpiry = document.getElementById("card-expiry").value;
+                const cardCvv = document.getElementById("card-cvv").value;
+                
+                if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                    alert("Please enter all card details");
+                    return;
+                }
+                
+                // Simple card number validation
+                if (cardNumber.replace(/\s/g, '').length !== 16 || isNaN(cardNumber.replace(/\s/g, ''))) {
+                    alert("Please enter a valid 16-digit card number");
+                    return;
+                }
+                
+                // Simple CVV validation
+                if (cardCvv.length !== 3 || isNaN(cardCvv)) {
+                    alert("Please enter a valid 3-digit CVV");
+                    return;
+                }
+            }
+            
+            // Process payment based on selected method
+            switch(selectedPayment.value) {
+                case 'google-pay':
+                    processGooglePay();
+                    break;
+                case 'phonepe':
+                    processPhonePe();
+                    break;
+                case 'credit-card':
+                case 'debit-card':
+                    processCardPayment();
+                    break;
+                case 'cod':
+                    processCOD();
+                    break;
+            }
+        });
+
+        function processGooglePay() {
+            // In a real implementation, you would integrate with Google Pay API
+            alert(`Redirecting to Google Pay for payment of ₹${productPrice}`);
+            // Simulate successful payment
+            setTimeout(() => {
+                showSuccess("Google Pay payment successful!");
+            }, 2000);
+        }
+
+        function processPhonePe() {
+            // In a real implementation, you would integrate with PhonePe API
+            alert(`Redirecting to PhonePe for payment of ₹${productPrice}`);
+            // Simulate successful payment
+            setTimeout(() => {
+                showSuccess("PhonePe payment successful!");
+            }, 2000);
+        }
+
+        function processCardPayment() {
+            // In a real implementation, you would process the card payment
+            const cardNumber = document.getElementById("card-number").value;
+            const lastFour = cardNumber.slice(-4);
+            alert(`Processing card payment (ending with ${lastFour}) for ₹${productPrice}`);
+            // Simulate successful payment
+            setTimeout(() => {
+                showSuccess("Card payment successful!");
+            }, 2000);
+        }
+
+        function processCOD() {
+    const productPrice = document.getElementById("product-price").textContent.replace("Price: ₹", "");
+    
+    // Show confirmation alert
+    alert(`Order placed successfully! You will pay ₹${productPrice} when your order is delivered.`);
+    
+    // Create COD order object
+    const order = {
+        id: "COD_" + Date.now(),
+        product: document.getElementById("product-name").textContent,
+        price: productPrice,
+        payment: { method: "Cash on Delivery" },
+        date: new Date().toLocaleString(),
+        status: "pending"
+    };
+    
+    // Save to localStorage (like your PayU integration)
+    localStorage.setItem("latestOrder", JSON.stringify(order));
+    
+    // Redirect to thank you page
+    window.location.href = "thankyou.html";
+}
+
+        function showSuccess(message) {
+            // In a real implementation, you would redirect to a success page
+            alert(message);
+            console.log("Order details:", {
+                product: productName,
+                price: productPrice,
+                customer: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                address: document.getElementById("address").value,
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value,
+                transactionId: generateTxnId(),
+                date: new Date().toISOString()
+            });
+        }
+    </script>
+</body>
+</html>

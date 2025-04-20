@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth System | Black & Yellow</title>
+    <style>
+        :root {
+            --primary-bg: #000000;
+            --secondary-bg: #121212;
+            --primary-accent: #FFD700;
+            --secondary-accent: #FFEE58;
+            --text-light: #FFFFFF;
+            --text-dark: #000000;
+            --error: #FF5252;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+        
+        .auth-box {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--primary-accent);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo h1 {
+            color: var(--primary-accent);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: #888;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: var(--primary-accent);
+            border-bottom: 2px solid var(--primary-accent);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-accent);
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #222;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--primary-accent);
+            color: var(--text-dark);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-accent);
+        }
+        
+        .message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+        
+        .error {
+            background-color: rgba(255, 82, 82, 0.2);
+            color: var(--error);
+            display: block;
+        }
+        
+        .success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            display: block;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        .home-button-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000; /* Ensures it stays above other content */
+        }
+        
+        .home-button {
+            background-color: #000;
+            color: #ffc107; /* Yellow color */
+            border: 2px solid #ffc107;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .home-button:hover {
+            background-color: #ffc107;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-button-container">
+        <!-- As a link -->
+        <a href="../index.html" class="home-button">Return to Home</a>
+        </div>
+    <div class="container">
+        <div class="auth-box">
+            <div class="logo">
+                <h1>GOLDEN ACCESS</h1>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('login')">LOGIN</div>
+                <div class="tab" onclick="switchTab('signup')">SIGN UP</div>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                
+                <button type="submit" class="btn">LOGIN</button>
+                
+                <div id="loginMessage" class="message"></div>
+            </form>
+            
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                
+                <button type="submit" class="btn">SIGN UP</button>
+                
+                <div id="signupMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Switch between login and signup tabs
+        function switchTab(tabName) {
+            const loginTab = document.querySelector('.tabs div:first-child');
+            const signupTab = document.querySelector('.tabs div:last-child');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            if (tabName === 'login') {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else {
+                loginTab.classList.remove('active');
+                signupTab.classList.add('active');
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            }
+        }
+        
+        // Handle signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageEl = document.getElementById('signupMessage');
+            
+            // Reset message
+            messageEl.className = 'message';
+            messageEl.textContent = '';
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                messageEl.textContent = 'Passwords do not match!';
+                messageEl.classList.add('error');
+                return;
+            }
+            
+            // Validate password length
+            if (password.length < 6) {
+                messageEl.textContent = 'Password must be at least 6 characters!';
+                messageEl.classList.add('error');
+                return;
+            }
+            
+            // Check if user already exists
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = users.some(user => user.email === email);
+            
+            if (userExists) {
+                messageEl.textContent = 'User with this email already exists!';
+                messageEl.classList.add('error');
+                return;
+            }
+            
+            // Create new user
+            users.push({ email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Show success message
+            messageEl.textContent = 'Account created successfully! You can now login.';
+            messageEl.classList.add('success');
+            
+            // Clear form
+            document.getElementById('signupForm').reset();
+            
+            // Switch to login tab
+            setTimeout(() => switchTab('login'), 1500);
+        });
+        
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageEl = document.getElementById('loginMessage');
+            
+            // Reset message
+            messageEl.className = 'message';
+            messageEl.textContent = '';
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Find user
+            const user = users.find(user => user.email === email);
+            
+            if (!user) {
+                messageEl.textContent = 'User not found!';
+                messageEl.classList.add('error');
+                return;
+            }
+            
+            if (user.password !== password) {
+                messageEl.textContent = 'Incorrect password!';
+                messageEl.classList.add('error');
+                return;
+            }
+            
+            // Login successful
+            messageEl.textContent = 'Login successful!';
+            messageEl.classList.add('success');
+            
+            // Store logged in user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Clear form
+            document.getElementById('loginForm').reset();
+            
+            // Redirect to dashboard or home page
+            setTimeout(() => {
+                alert(`Welcome back, ${email}!`);
+                window.location.href = 'home.html'; // Uncomment if you have a dashboard page
+            }, 1000);
+        });
+        
+        // Check if user is already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                alert(`You're already logged in as ${currentUser.email}. Redirecting...`);
+                // window.location.href = 'dashboard.html'; // Uncomment if you have a dashboard page
+            }
+        });
+    </script>
+</body>
+</html>
